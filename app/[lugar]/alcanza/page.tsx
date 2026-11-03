@@ -7,16 +7,20 @@ import { DataNote } from "@/components/editorial/data-note";
 import { Guarded } from "@/components/editorial/guarded";
 import { getCobertura, getCrianza, getSalarios } from "@/lib/data/ingresos";
 import { placeFromParams, regionInName } from "@/lib/data/place";
+import { getTopicSummary, statDescription } from "@/lib/data/resumen";
 import { formatPercent, formatPeriod, formatPesos } from "@/lib/format/es-ar";
 import { seriesTable } from "@/lib/format/tables";
 import { regionNote, type Place } from "@/lib/places";
+import { pageMetadata } from "@/lib/site";
 
 export async function generateMetadata({ params }: PageProps<"/[lugar]/alcanza">): Promise<Metadata> {
   const place = await placeFromParams(params);
-  return {
+  const { alcanza } = await getTopicSummary(place);
+  return pageMetadata({
     title: `¿Alcanza? · ${place.name}`,
-    description: `Cuánto de la canasta básica cubren el salario mínimo y la jubilación mínima ${regionInName(place)}.`,
-  };
+    description: statDescription(alcanza, `Cuánto de la canasta básica cubren el salario mínimo y la jubilación mínima ${regionInName(place)}.`),
+    path: `/${place.slug}/alcanza`,
+  });
 }
 
 const BASKET_DEFINITION =

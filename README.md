@@ -1,8 +1,10 @@
-# Dato Mata Relato
+# Argentina al Desnudo
 
-**Argentina, bajo la lupa.** Entendé lo que pasa. Descubrí lo que cambia.
+Entendé lo que pasa. Descubrí lo que cambia.
 
-Precios, ingresos y pobreza en tu provincia, con datos oficiales explicados en lenguaje simple. Dominio previsto: `datomatarelato.org`. El nombre y el dominio se cambian en `lib/site.ts`, y el logo, en `components/layout/logo.tsx`.
+Precios, ingresos y pobreza en tu provincia, con datos oficiales explicados en lenguaje simple. El sitio no toma partido: muestra el dato oficial, qué cubre y de dónde sale.
+
+El nombre se cambia en `lib/site.ts`, el ícono en `app/icon.svg` y la imagen principal para compartir en `components/og/share-image.tsx`.
 
 ## Cómo levantarlo
 
@@ -21,6 +23,10 @@ Sin token quedan sin datos la canasta de crianza, la indigencia y la población,
 
 1. Pegá tu token en `.env.local`, después de `INDEC_API_TOKEN=`.
 2. Corré `npm run check:sources` para comprobar que la API responde como se espera.
+
+### Antes de publicar
+
+Definí `SITE_URL` con la dirección pública (`https://tudominio.org`), tanto para el build como para el servidor: por ejemplo, en `.env.production`. Las etiquetas para compartir usan esa dirección. Si falta al iniciar el servidor, las redes buscan las imágenes en `localhost` y el enlace sale sin imagen, aunque en tu navegador se vea bien. En Vercel, si no está definida, se usa la dirección de producción del proyecto.
 
 ## Comandos
 
@@ -41,6 +47,7 @@ app/               Páginas (Server Components)
 components/
   charts/          Gráficos reutilizables
   editorial/       Secciones, notas de fuente, controles y manejo de fallas
+  og/              Imágenes al compartir un enlace
   place/           Selector de lugar y geolocalización
   precios/ pobreza/   Interactivos de cada sección
 lib/
@@ -50,6 +57,7 @@ lib/
   normalize/       Períodos y validación
   analysis/        Variaciones, salario real, adultos equivalentes
   data/            Une todo con la caché de Next.js
+assets/fonts/      IBM Plex Sans, para las imágenes al compartir
 scripts/           Control de fuentes
 docs/              Investigación, diseño y arquitectura, por etapa
 ```

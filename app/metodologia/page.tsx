@@ -1,12 +1,13 @@
 import type { Metadata } from "next";
 import { Block, PageShell, PageTitle } from "@/components/editorial/blocks";
 import { CITIES, PLACES, REGIONS } from "@/lib/places";
-import { SITE } from "@/lib/site";
+import { pageMetadata, SITE } from "@/lib/site";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: "Cómo trabajamos",
   description: `De dónde salen los datos de ${SITE.name}, cómo los controlamos y qué decidimos no hacer.`,
-};
+  path: "/metodologia",
+});
 
 const SOURCES: { what: string; publisher: string; level: string; frequency: string }[] = [
   { what: "Índice de Precios al Consumidor", publisher: "INDEC", level: "País y 6 regiones", frequency: "Mensual" },
@@ -35,7 +36,7 @@ export default function MetodologiaPage() {
           <li>No inventamos ni completamos datos. Si falta un valor, se ve el hueco.</li>
           <li>Decimos qué cubre cada número: una región, una ciudad o todo el país no son lo mismo.</li>
           <li>Describimos qué cambió, sin atribuir causas que los datos no prueban.</li>
-          <li>Los gráficos no señalan gobiernos, y las fechas de comparación son neutras.</li>
+          <li>No tomamos partido: los gráficos no señalan gobiernos, y las fechas de comparación son neutras.</li>
           <li>Si una fuente falla o sus datos no pasan los controles, avisamos y no mostramos un dato dudoso.</li>
         </ul>
       </Block>

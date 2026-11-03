@@ -1,8 +1,8 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { IBM_Plex_Sans } from "next/font/google";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
-import { SITE } from "@/lib/site";
+import { SITE, siteUrl } from "@/lib/site";
 import "./globals.css";
 
 const plex = IBM_Plex_Sans({
@@ -12,13 +12,28 @@ const plex = IBM_Plex_Sans({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL(SITE.url),
+  metadataBase: new URL(siteUrl()),
+  applicationName: SITE.name,
   title: {
-    default: `${SITE.name}: ${SITE.tagline}`,
+    default: SITE.title,
     template: `%s | ${SITE.name}`,
   },
-  description: `Precios, ingresos y pobreza en tu provincia, con datos oficiales explicados en lenguaje simple. ${SITE.slogan}`,
-  openGraph: { siteName: SITE.name, locale: "es_AR", type: "website" },
+  description: SITE.description,
+  openGraph: {
+    title: SITE.name,
+    description: SITE.description,
+    siteName: SITE.name,
+    locale: "es_AR",
+    type: "website",
+  },
+  twitter: { card: "summary_large_image" },
+};
+
+export const viewport: Viewport = {
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#ffffff" },
+    { media: "(prefers-color-scheme: dark)", color: "#121417" },
+  ],
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

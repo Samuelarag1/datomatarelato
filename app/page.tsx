@@ -1,10 +1,16 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { Suspense } from "react";
 import { BlockSkeleton } from "@/components/editorial/blocks";
 import { HomeTopics } from "@/components/place/home-topics";
 import { PlacePicker } from "@/components/place/place-picker";
 import { getAllSummaries } from "@/lib/data/resumen";
-import { SITE } from "@/lib/site";
+import { pageMetadata, SITE } from "@/lib/site";
+
+export const metadata: Metadata = {
+  ...pageMetadata({ title: SITE.name, description: SITE.description, path: "/" }),
+  title: { absolute: SITE.title },
+};
 
 async function Topics() {
   return <HomeTopics summaries={await getAllSummaries()} />;
@@ -15,7 +21,7 @@ export default function HomePage() {
     <div className="mx-auto max-w-5xl px-4 py-10 sm:px-6 sm:py-14">
       <section className="grid gap-8 md:grid-cols-[minmax(0,3fr)_minmax(0,2fr)] md:gap-12">
         <div>
-          <h1 className="text-4xl font-semibold tracking-tight sm:text-5xl">{SITE.tagline}</h1>
+          <h1 className="text-4xl font-semibold tracking-tight sm:text-5xl">{SITE.name}</h1>
           <p className="mt-3 text-xl text-ink-2">{SITE.slogan}</p>
           <p className="mt-6 max-w-xl text-[17px] leading-relaxed text-ink-2">
             {SITE.name} toma datos oficiales del INDEC y de otros organismos públicos y los explica en lenguaje simple:

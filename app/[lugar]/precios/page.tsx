@@ -8,17 +8,21 @@ import { InflationChart } from "@/components/precios/inflation-chart";
 import { PriceTable } from "@/components/precios/price-table";
 import { placeFromParams, regionInName } from "@/lib/data/place";
 import { getPrecios, getProductos, getRubros } from "@/lib/data/precios";
+import { getTopicSummary, statDescription } from "@/lib/data/resumen";
 import { formatPercent, formatPeriod, formatPesos, formatSignedPercent } from "@/lib/format/es-ar";
 import { seriesTable } from "@/lib/format/tables";
 import { addMonths } from "@/lib/normalize/periods";
 import { REGIONS, regionNote, type Place } from "@/lib/places";
+import { pageMetadata } from "@/lib/site";
 
 export async function generateMetadata({ params }: PageProps<"/[lugar]/precios">): Promise<Metadata> {
   const place = await placeFromParams(params);
-  return {
+  const { precios } = await getTopicSummary(place);
+  return pageMetadata({
     title: `Precios · ${place.name}`,
-    description: `Cuánto suben los precios ${regionInName(place)}, qué aumentó más y cuánto cuestan las cosas de todos los días.`,
-  };
+    description: statDescription(precios, `Cuánto suben los precios ${regionInName(place)}, qué aumentó más y cuánto cuestan las cosas de todos los días.`),
+    path: `/${place.slug}/precios`,
+  });
 }
 
 const monthName = (period: string) => formatPeriod(period).split(" de ")[0];

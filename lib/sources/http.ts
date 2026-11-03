@@ -1,4 +1,4 @@
-const USER_AGENT = "DatoMataRelato/0.1 (visualizacion de datos publicos de Argentina)";
+const USER_AGENT = "ArgentinaAlDesnudo/0.1 (visualizacion de datos publicos de Argentina)";
 
 export class SourceError extends Error {
   constructor(

@@ -4,13 +4,18 @@ import { BlockSkeleton, PageShell, PageTitle } from "@/components/editorial/bloc
 import { TopicCards } from "@/components/place/topic-cards";
 import { getPoblacion } from "@/lib/data/poblacion";
 import { placeFromParams } from "@/lib/data/place";
-import { getTopicSummary } from "@/lib/data/resumen";
+import { getTopicSummary, summaryDescription } from "@/lib/data/resumen";
 import { formatPopulation } from "@/lib/format/es-ar";
 import { CITIES, REGIONS, type Place } from "@/lib/places";
+import { pageMetadata } from "@/lib/site";
 
 export async function generateMetadata({ params }: PageProps<"/[lugar]">): Promise<Metadata> {
   const place = await placeFromParams(params);
-  return { title: place.name, description: `Precios, ingresos y pobreza ${place.inName}, con datos oficiales.` };
+  return pageMetadata({
+    title: place.name,
+    description: summaryDescription(await getTopicSummary(place), `Precios, ingresos y pobreza ${place.inName}, con datos oficiales.`),
+    path: `/${place.slug}`,
+  });
 }
 
 async function Population({ place }: { place: Place }) {

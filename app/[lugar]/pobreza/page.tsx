@@ -9,16 +9,20 @@ import { CityChart } from "@/components/pobreza/city-chart";
 import { HouseholdCalculator } from "@/components/pobreza/household-calculator";
 import { placeFromParams } from "@/lib/data/place";
 import { getCiudades, getLineas, getPobreza } from "@/lib/data/pobreza";
+import { getTopicSummary, statDescription } from "@/lib/data/resumen";
 import { formatPercent, formatPeriod } from "@/lib/format/es-ar";
 import { seriesTable, type ChartSeries } from "@/lib/format/tables";
 import { CITIES, type Place } from "@/lib/places";
+import { pageMetadata } from "@/lib/site";
 
 export async function generateMetadata({ params }: PageProps<"/[lugar]/pobreza">): Promise<Metadata> {
   const place = await placeFromParams(params);
-  return {
+  const { pobreza } = await getTopicSummary(place);
+  return pageMetadata({
     title: `Pobreza · ${place.name}`,
-    description: `Cuánta gente está bajo la línea de pobreza ${place.inName} y cuánto necesita un hogar como el tuyo.`,
-  };
+    description: statDescription(pobreza, `Cuánta gente está bajo la línea de pobreza ${place.inName} y cuánto necesita un hogar como el tuyo.`),
+    path: `/${place.slug}/pobreza`,
+  });
 }
 
 function titleNote(place: Place) {
