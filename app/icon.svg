@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <style>
+    .box { fill: #16191d; }
+    .letter { fill: #ffffff; }
+    @media (prefers-color-scheme: dark) {
+      .box { fill: #eceef0; }
+      .letter { fill: #16191d; }
+    }
+  </style>
+  <rect class="box" width="32" height="32" rx="6" />
+  <path class="letter" fill-rule="evenodd" d="M9 6h7.5a10 10 0 0 1 0 20H9zM13.5 10.2v11.6h3a5.8 5.8 0 0 0 0-11.6z" />
+</svg>

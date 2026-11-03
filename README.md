@@ -1,36 +1,63 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Dato Mata Relato
 
-## Getting Started
+**Argentina, bajo la lupa.** Entendé lo que pasa. Descubrí lo que cambia.
 
-First, run the development server:
+Precios, ingresos y pobreza en tu provincia, con datos oficiales explicados en lenguaje simple. Dominio previsto: `datomatarelato.org`. El nombre y el dominio se cambian en `lib/site.ts`, y el logo, en `components/layout/logo.tsx`.
+
+## Cómo levantarlo
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Abrí http://localhost:3000. Funciona sin configurar nada.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Si en desarrollo ves errores de hidratación con `bis_skin_checked` o `bis_register`, vienen de la extensión Urban VPN, no del sitio. Para no verlos, abrí el sitio en una ventana de incógnito o desactivá la extensión.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### Token de la API del INDEC (opcional)
 
-## Learn More
+Sin token quedan sin datos la canasta de crianza, la indigencia y la población, y los rubros de precios se muestran en 12 categorías en vez de 18.
 
-To learn more about Next.js, take a look at the following resources:
+1. Pegá tu token en `.env.local`, después de `INDEC_API_TOKEN=`.
+2. Corré `npm run check:sources` para comprobar que la API responde como se espera.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Comandos
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+| Comando | Qué hace |
+|---|---|
+| `npm run dev` | Servidor de desarrollo |
+| `npm run build` y `npm start` | Build y servidor de producción |
+| `npm test` | Tests de lectura de fuentes, validación y análisis |
+| `npm run check:sources` | Controla todas las fuentes reales contra valores oficiales |
+| `npm run lint` | Lint |
 
-## Deploy on Vercel
+Conviene correr `check:sources` seguido, porque las fuentes públicas cambian sin aviso. Sale con código 1 si encuentra un problema.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Estructura
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```
+app/               Páginas (Server Components)
+components/
+  charts/          Gráficos reutilizables
+  editorial/       Secciones, notas de fuente, controles y manejo de fallas
+  place/           Selector de lugar y geolocalización
+  precios/ pobreza/   Interactivos de cada sección
+lib/
+  places.ts        Qué región y ciudades corresponden a cada lugar
+  sources/         Lectura de CSV, XLS y API del INDEC
+  indicators/      Registro de series y productos
+  normalize/       Períodos y validación
+  analysis/        Variaciones, salario real, adultos equivalentes
+  data/            Une todo con la caché de Next.js
+scripts/           Control de fuentes
+docs/              Investigación, diseño y arquitectura, por etapa
+```
+
+## Documentación
+
+- [Etapa 1: datos y propuesta](docs/etapa-1-propuesta.md)
+- [Etapa 2: diseño de producto](docs/etapa-2-diseno.md)
+- [Etapa 3: arquitectura e integraciones](docs/etapa-3-arquitectura.md), con la guía para sumar un indicador
+
+Esta versión de Next.js tiene cambios importantes: antes de tocar código, leé `AGENTS.md`.
